@@ -1,0 +1,103 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="js/app.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".ryu").on("mouseenter", function () {
+                $(".ryu-still").hide()
+                $(".ryu-ready").show()
+            });
+
+            $(".ryu").on("mouseleave", function () {
+                $(".ryu-still").show()
+                $(".ryu-ready").hide()
+            });
+
+
+            $(".ryu").on("mousedown", function () {
+                $(".ryu-still").hide();
+                $(".ryu-ready").hide();
+                $(".ryu-throwing").show();
+                $('.hadouken').show();
+                $('.hadouken').finish().show()
+                .animate(
+                  { 'left': '300px' },
+                  500,
+                  function () {
+                      $(this).stop();
+                      $(this).hide();
+                      $(this).css('left', '-212px');
+                  }
+                );
+
+                playHadouken();
+            });
+
+
+            $(".ryu").on("mouseup", function () {
+                $(".ryu-still").hide()
+                $(".ryu-ready").show()
+                $(".ryu-throwing").hide()
+                $(".ryu-cool").hide();
+            });
+
+            $(document).on("keydown", function (event) {
+                if (event.keyCode == 88) {
+                    $('#cool')[0].volume = 0.5;
+                    //$('#cool')[0].load()
+                    $('#cool')[0].play();
+                    $(".ryu-cool").show();
+                    $(".ryu-still").hide();
+                    $(".ryu-ready").hide();
+
+                }
+            });
+
+
+            $(document).on("keyup", function (event) {
+                if (event.keyCode == 88) {
+                    $(".ryu-cool").hide();
+                    $(".ryu-still").show();
+                    $(".ryu-ready").hide();
+                    $('#cool')[0].pause();
+
+                }
+            });
+
+            function playHadouken() {
+                $('#hadouken-sound')[0].volume = 0.5;
+                $('#hadouken-sound')[0].load();
+                $('#hadouken-sound')[0].play();
+            }
+
+        });
+    </script>
+</head>
+<body>
+    <div class="main">
+        <div class="ryu">
+            <div class="ryu-still"></div>
+            <div class="ryu-ready"></div>
+            <div class="ryu-throwing"></div>
+            <div class="ryu-cool"></div>
+        </div>
+        <div class="hadouken">
+
+        </div>
+        <div class="instructions">
+            <p>Click on Ryu to make him throw a Hadouken.</p>
+            <p>Press and hold down the "x" key to make him strike his cool pose!</p>
+        </div>
+    </div>
+
+    <audio id="theme-song" src="sound/street-fighter-theme.mp3"></audio>
+    <audio id="hadouken-sound" src="sound/hadouken.mp3"></audio>
+    <audio id="cool" src="sound/cool.mp3"></audio>
+</body>
+</html>
